@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Catalogue Search", layout="wide")
 
@@ -22,4 +21,5 @@ gcp_widget_code = """
 </div>
 """
 
-components.html(gcp_widget_code, height=800, scrolling=True)
+# FIX: Using st.markdown with unsafe_allow_html=True avoids the "about:srcdoc" sandbox issue
+st.markdown(gcp_widget_code, unsafe_allow_html=True)
