@@ -4,21 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogue Search</title>
-    
-    <!-- CSS FIX: This forces Google's inner custom elements to stretch 100% wide -->
-    <style>
-        gen-search-widget, 
-        .gen-search-widget-container,
-        [id^="searchWidgetTrigger"] {
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-        /* Target Google's internal shadow-root layouts if needed */
-        ::part(results-container), ::part(search-container) {
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-    </style>
 </head>
 <body style="margin: 0; padding: 20px; font-family: sans-serif; background-color: #f9f9f9;">
 
@@ -27,22 +12,47 @@
         <h2 style="margin-top: 0; color: #333;">📖 Catalogue Search</h2>
         <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Type your query below and press Enter.</p>
 
-        <!-- Google Widget Script -->
         <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=en_US"></script>
 
-        <!-- Search Input -->
         <input placeholder="Search here..." id="searchWidgetTrigger" 
                style="width: 100%; padding: 16px; font-size: 16px; border: 2px solid #1a73e8; border-radius: 4px; box-sizing: border-box; outline: none; margin-bottom: 20px;" />
 
-        <!-- Search Widget (Carrying your active 'Include' filter) -->
         <gen-search-widget
+          id="myCatalogueSearchWidget"
           configId="a1c8f735-5881-4d81-ac20-26fa64158c68"
           triggerId="searchWidgetTrigger"
-          displayMode="INLINE"
-          searchFilter='structData.Include: ANY("x")'>
+          displayMode="INLINE">
         </gen-search-widget>
 
     </div>
+
+    <script>
+        const widget = document.getElementById('myCatalogueSearchWidget');
+
+        // 1. HARDCODE THE FILTER VIA JAVASCRIPT OPTIONS
+        widget.searchOptions = {
+            filter: 'structData.Include: ANY("x")'
+        };
+
+        // 2. BREAK THROUGH GOOGLE'S SHADOW DOM WALL FOR WIDTH
+        widget.addEventListener('render', () => {
+            const shadowRoot = widget.shadowRoot;
+            if (shadowRoot) {
+                // Find all inner containers and force them to go full wide
+                const styles = document.createElement('style');
+                styles.textContent = `
+                    .gen-search-widget-container, 
+                    .search-results-wrapper, 
+                    .results-container,
+                    div[class*="container"] { 
+                        width: 100% !important; 
+                        max-width: 100% !important; 
+                    }
+                `;
+                shadowRoot.appendChild(styles);
+            }
+        });
+    </script>
 
 </body>
 </html>
