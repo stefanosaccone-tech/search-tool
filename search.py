@@ -1,17 +1,8 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Our Team AI App", layout="wide")
-st.title("🤖 Catalogue Search")
-
-# Paste the exact HTML code snippet you copied from your GCP Widget tab below:
-gcp_widget_code = """
-import streamlit as st
-import streamlit.components.v1 as components
-
 st.set_page_config(page_title="Catalogue Search", layout="wide")
 
-# We increase the height to 800px so there is plenty of room for search results to display inline
 st.title("📖 Catalogue Search")
 
 gcp_widget_code = """
@@ -31,5 +22,4 @@ gcp_widget_code = """
 </div>
 """
 
-# This renders the Google widget inside the web page
-components.html(gcp_widget_code, height=600, scrolling=True)
+components.html(gcp_widget_code, height=800, scrolling=True)
