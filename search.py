@@ -6,12 +6,17 @@ st.title("🤖 Catalogue Search")
 
 # Paste the exact HTML code snippet you copied from your GCP Widget tab below:
 gcp_widget_code = """
-<script src="https://cloud.google.com/ai/proxies/..."></script>
+<!-- Widget JavaScript bundle -->
+<script src="https://cloud.google.com/ai/gen-app-builder/client?hl=en_US"></script>
+
+<!-- Search widget element is not visible by default -->
 <gen-search-widget
-  configId="xxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+  configId="a1c8f735-5881-4d81-ac20-26fa64158c68"
   triggerId="searchWidgetTrigger">
 </gen-search-widget>
-<input type="text" id="searchWidgetTrigger" placeholder="Ask our AI anything..." style="width:100%; padding:10px; font-size:16px;">
+
+<!-- Element that opens the widget on click. It does not have to be an input -->
+<input placeholder="Search here" id="searchWidgetTrigger" />
 """
 
 # This renders the Google widget inside the web page
